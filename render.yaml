@@ -1,0 +1,38 @@
+from pyrogram import Client, filters, StopPropagation
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+
+
+JOIN_BUTTON = InlineKeyboardMarkup([
+    [InlineKeyboardButton("😈 Owner 😈", url="http://t.me/mrdevil12")],
+    [InlineKeyboardButton("🔥 Update Channel 🔥", url="https://t.me/devilbots971")],
+    [InlineKeyboardButton("🔥 Support Group 🔥", url="https://t.me/devilbotsupport")],
+])
+
+START_TEXT = """**Devil X Telegraph**
+Hello {name}!
+
+🏷 I can upload these file types to [Telegraph](https://telegra.ph) and give you a direct link.
+
+**Supported formats:**
+• `JPG` / `JPEG` — send as photo
+• `PNG` — send as photo or document
+• `GIF` — send as document
+• `MP4` — send as document
+• `MP3` — send as document
+
+📌 Just send your file and I'll return a Telegraph URL instantly.
+⚠️ Files larger than **5 MB** are not supported by Telegraph.
+
+🖥 Bot created by [MR DEVIL](http://t.me/mrdevil12)
+"""
+
+
+@Client.on_message(filters.command("start") & (filters.private | filters.group))
+async def start(_, message: Message):
+    name = message.from_user.first_name if message.from_user else "User"
+    await message.reply_photo(
+        "https://graph.org/file/b609a772e749668d82661.jpg",
+        caption=START_TEXT.format(name=name),
+        reply_markup=JOIN_BUTTON,
+    )
+    raise StopPropagation

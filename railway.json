@@ -1,0 +1,26 @@
+import os
+import sys
+
+
+class Vauth:
+    BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+    API_HASH = os.getenv("API_HASH", "")
+
+    _api_id_raw = os.getenv("API_ID", "")
+    try:
+        API_ID = int(_api_id_raw)
+    except (ValueError, TypeError):
+        API_ID = 0
+
+    @classmethod
+    def validate(cls):
+        missing = []
+        if not cls.BOT_TOKEN:
+            missing.append("BOT_TOKEN")
+        if not cls.API_HASH:
+            missing.append("API_HASH")
+        if not cls.API_ID:
+            missing.append("API_ID")
+        if missing:
+            print(f"[ERROR] Missing required environment variables: {', '.join(missing)}")
+            sys.exit(1)
